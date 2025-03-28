@@ -66,7 +66,7 @@ const startApp = async () => {
 	const blockName = await rl.question("What is the name of the new block? ")
 	rl.close()
 	const slug = slugify(blockName)
-	const dir = join(__dirname, `packages/${slug}`)
+	const dir = join(__dirname, `BLOCKS/${slug}`)
 
 	const isValid = validateOptions(company, namespace, slug, dir)
 	console.log(`Creating a new block as ${namespace}/${slug} with the name of "${blockName}"`)

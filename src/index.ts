@@ -31,7 +31,7 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 
 	return [
 		{
-			name: "vite-plugin-gutenberg-blocks",
+			name: "vite-gutenberg-blocks-creator",
 			config: () => config({ outDir: normalisedOut, blockFile }),
 			configResolved(config: ResolvedConfig) {
 				_config = config;

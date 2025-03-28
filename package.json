@@ -1,6 +1,6 @@
 {
 	"name": "vite-gutenberg-blocks-creator",
-	"version": "2.4.0",
+	"version": "2.4.4",
 	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
 	"module": "dist/index.js",

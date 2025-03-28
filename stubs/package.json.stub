@@ -6,13 +6,13 @@
 	"scripts": {
 		"dev": "npx lerna run dev",
 		"build": "npx lerna run build",
-		"create": "npx -p vite-plugin-gutenberg-blocks create"
+		"create": "npx -p vite-gutenberg-blocks-creator create"
 	},
     "engines": {
         "node": "^18.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0"
     },
 	"dependencies": {
-		"vite-plugin-gutenberg-blocks": "^2.0.0",
+		"vite-gutenberg-blocks-creator": "^2.4.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},
@@ -30,6 +30,6 @@
 		"vite-plugin-static-copy": "^1.0.0"
 	},
 	"workspaces": [
-		"packages/*"
+		"BLOCKS/*"
 	]
 }
