@@ -24,7 +24,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/evo-mark/vite-plugin-gutenberg-blocks.git"
+		"url": "https://github.com/GrafVishna/vite-gutenberg-blocks-creator.git"
 	},
 	"keywords": [
 		"vite",
@@ -33,9 +33,9 @@
 		"blocks",
 		"react"
 	],
-	"author": "evomark",
+	"author": "GrafVishna",
 	"license": "MIT",
-	"homepage": "https://evomark.co.uk",
+	"homepage": "https://frontelf.com",
 	"engines": {
 		"node": "^18.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0"
 	},
