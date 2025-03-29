@@ -88,16 +88,13 @@ const startApp = async () => {
 			mkdirSync(targetDirPath, { recursive: true })
 		}
 
-		console.log('Creating block directory:', dir)
 		mkdirSync(dir)
-		console.log('Creating src directory:', `${dir}/src`)
 		mkdirSync(`${dir}/src`)
 	}
 	if (company) company = "@" + company + "/"
 	else company = ""
 
 	const stubs = walk(resolve(`${pkgRoot}/.stubs/blocks`))
-	console.log('Found stubs:', stubs)
 
 	// Перевіряємо тип файлів стилів в шаблонах
 	const hasScssTemplates = stubs.some(stub =>
@@ -114,8 +111,6 @@ const startApp = async () => {
 		// Використовуємо локальний шаблон, якщо він існує
 		const resolvedSource = existsSync(overridePath) ? overridePath : stub
 
-		console.log('Processing stub:', resolvedSource)
-
 		// Визначаємо тип файлу стилів для виводу
 		let outputPath = stub
 			.replace(/\.stub$/i, "")
@@ -131,8 +126,6 @@ const startApp = async () => {
 				outputPath = outputPath.replace(/\.(scss|sass)$/, '.css')
 			}
 		}
-
-		console.log('Writing to:', outputPath)
 
 		const content = readFileSync(resolvedSource, "utf-8")
 		const modifiedContent = content
