@@ -1,6 +1,6 @@
 {
 	"name": "vite-gutenberg-blocks-creator",
-	"version": "2.4.6",
+	"version": "2.5.2",
 	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
@@ -21,7 +21,7 @@
 		"/dist",
 		"/scripts",
 		"/bin",
-		"/stubs"
+		"/.stubs"
 	],
 	"repository": {
 		"type": "git",

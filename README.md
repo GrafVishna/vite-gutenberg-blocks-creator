@@ -58,7 +58,7 @@ Stubs are template files that are used when creating a new block from within you
 ```
 📦 development/
 └── 📂 blocks-folder/
-└── 📂 stubs/
+└── 📂 .stubs/
     ├── 📂 src/
     │   ├── 📄 block.json.stub
     │   ├── 📄 edit.jsx.stub

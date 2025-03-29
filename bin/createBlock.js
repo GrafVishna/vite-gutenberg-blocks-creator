@@ -96,31 +96,63 @@ const startApp = async () => {
 	if (company) company = "@" + company + "/"
 	else company = ""
 
-	const stubs = walk(resolve(`${pkgRoot}/stubs/blocks`))
+	const stubs = walk(resolve(`${pkgRoot}/.stubs/blocks`))
 	console.log('Found stubs:', stubs)
+
+	// Перевіряємо тип файлів стилів в шаблонах
+	const hasScssTemplates = stubs.some(stub =>
+		/\.(scss|sass)\.stub$/i.test(stub)
+	)
 
 	for (const stub of stubs) {
 		if (/\.stub$/i.test(stub) === false) continue
 
-		const source = stub
-		const output = stub
+		// Отримуємо відносний шлях до шаблону
+		const relativePath = stub.replace(`${pkgRoot}/.stubs/blocks/`, "")
+		// Шукаємо локальний шаблон
+		const overridePath = join(__dirname, ".stubs/blocks", relativePath)
+		// Використовуємо локальний шаблон, якщо він існує
+		const resolvedSource = existsSync(overridePath) ? overridePath : stub
+
+		console.log('Processing stub:', resolvedSource)
+
+		// Визначаємо тип файлу стилів для виводу
+		let outputPath = stub
 			.replace(/\.stub$/i, "")
 			.replace(/^.*?stubs\/blocks/, dir)
+
+		// Якщо це файл стилів, перевіряємо тип
+		if (/\.(css|scss|sass)\.stub$/i.test(stub)) {
+			if (hasScssTemplates) {
+				// Якщо в шаблонах є SCSS, конвертуємо все в SCSS
+				outputPath = outputPath.replace(/\.css$/, '.scss')
+			} else {
+				// Якщо в шаблонах тільки CSS, використовуємо CSS
+				outputPath = outputPath.replace(/\.(scss|sass)$/, '.css')
+			}
+		}
+
+		console.log('Writing to:', outputPath)
+
+		const content = readFileSync(resolvedSource, "utf-8")
+		const modifiedContent = content
 			.replace(/##company##/g, company)
 			.replace(/##namespace##/g, namespace)
 			.replace(/##block##/g, slug)
 			.replace(/{{namespace}}/g, namespace)
 			.replace(/{{blockName}}/g, slug)
+			.replace(/##name##/g, blockName)
 
-		console.log('Processing stub:', source)
-		console.log('Resolved source:', source)
-		console.log('Writing to:', output)
+		// Створюємо необхідні директорії
+		const outputDir = dirname(outputPath)
+		if (!existsSync(outputDir)) {
+			mkdirSync(outputDir, { recursive: true })
+		}
 
-		const content = readFileSync(source, "utf-8")
-		writeFileSync(output, content)
+		writeFileSync(outputPath, modifiedContent)
 	}
 
-	console.log("Complete")
+	console.log(chalk.green("Complete"))
 }
 
 startApp()

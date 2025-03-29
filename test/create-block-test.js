@@ -126,7 +126,7 @@ async function testBlockCreation(customDir = null) {
    const test1Result = await testBlockCreation()
 
    // Test 2: Create block in custom directory
-   const test2Result = await testBlockCreation('custom-blocks')
+   const test2Result = await testBlockCreation('custom-blocks/blocks')
 
    // Print results
    console.log('\nTest results:')

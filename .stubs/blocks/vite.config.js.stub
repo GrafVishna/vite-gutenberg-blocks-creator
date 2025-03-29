@@ -16,10 +16,5 @@ export default defineConfig({
 	css: {
 		devSourcemap: true,
 		buildSourcemap: false,
-		preprocessorOptions: {
-			scss: {
-				additionalData: `@use "sass:math"; @use "sass:color";`
-			}
-		}
 	}
 });

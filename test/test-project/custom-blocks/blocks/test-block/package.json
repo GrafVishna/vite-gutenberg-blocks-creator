@@ -1,5 +1,5 @@
 {
-	"name": "##company####namespace##_##block##",
+	"name": "@test-company/test-namespace_test-block",
 	"version": "1.0.0",
 	"description": "",
     "type": "module",
@@ -12,7 +12,7 @@
     "devDependencies": {
         "autoprefixer": "^10.4.14",
         "sass": "^1.63.6",
-        "vite-gutenberg-blocks-creator": "^2.4.5"
+        "vite-gutenberg-blocks-creator": "^2.4.6"
     },
 	"keywords": [],
 	"author": "",

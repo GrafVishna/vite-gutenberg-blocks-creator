@@ -5,7 +5,7 @@ import "./style.scss";
 import edit from "./edit";
 import save from "./save";
 
-registerBlockType("##namespace##/##block##", {
+registerBlockType("test-namespace/test-block", {
 	edit,
 	save,
 	attributes: {},
