@@ -57,15 +57,15 @@ Stubs are template files that are used when creating a new block from within you
 
 ```
 📦 development/
-└── 📂 packages/
+└── 📂 blocks-folder/
 └── 📂 stubs/
     ├── 📂 src/
     │   ├── 📄 block.json.stub
-    │   ├── 📄 index.jsx.stub
     │   ├── 📄 edit.jsx.stub
-    │   ├── 📄 index.jsx.stub
-    │   ├── 📄 style.scss.stub
     │   └── 📄 editor-style.scss.stub
+    │   ├── 📄 index.jsx.stub
+    │   ├── 📄 save.jsx.stub
+    │   ├── 📄 style.scss.stub
     ├── 📄 vite.config.js.stub
     └── 📄 package.json.stub
 ```
@@ -82,6 +82,22 @@ For full instructions, see the section on `stubs` above.
 
 ## Usage
 
+### Development Commands
+
+Available commands in your root `package.json`:
+
+```json
+"scripts": {
+    "create": "npx -p vite-gutenberg-blocks-creator create blocks-folder",
+    "dev": "npx lerna run dev",
+    "build": "npx lerna run build"
+},
+
+"workspaces": [
+    "blocks-folder/*"
+]
+```
+
 ### Creating a New Block
 
 There are several ways to create a new block:
@@ -95,25 +111,27 @@ npx vite-gutenberg-blocks-creator
 npx vite-gutenberg-blocks-creator custom-folder
 ```
 
-2. Using npm script (if configured in `package.json`):
-```bash
-# First add this to your package.json scripts:
-{
-    "scripts": {
-        "create": "npx -p vite-gutenberg-blocks-creator create",
-        "dev": "npx lerna run dev",
-        "build": "npx lerna run build"
-    }
-}
-
-# Then you can run:
-npm run create
-```
-
 The tool will prompt you for the following information:
 1. NPM package namespace (optional)
 2. Library namespace for your block
 3. Name of the new block
+
+### Development Workflow
+
+1. Create a new block using either method above
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Make your changes with hot module replacement
+6. Build for production when ready:
+   ```bash
+   npm run build
+   ```
 
 ### Project Structure
 
@@ -125,14 +143,14 @@ When using a monorepo approach, your project structure looks like this:
 📦 project/
 ├── 📄 package.json # Root package.json with scripts
 ├── 📄 lerna.json # Lerna configuration
-└── 📂 blocks/ # Blocks directory
+└── 📂 blocks-folder/ # Blocks directory
     ├── 📂 block-1/ # Your first block
     │   ├── 📂 src/
     │   │   ├── 📄 index.jsx # Block entry point
     │   │   ├── 📄 edit.jsx # Editor component
     │   │   ├── 📄 edit.jsx # Frontend component
     │   │   ├── 📄 style.scss # Main styles
-    │   │   └── 📄 editor.scss # Editor-specific styles
+    │   │   └── 📄 editor-style.scss # Editor-specific styles
     │   ├── 📄 block.json # Block configuration
     │   └── 📄 package.json # Block dependencies
     └── 📂 block-2/ # Your second block
@@ -141,7 +159,7 @@ When using a monorepo approach, your project structure looks like this:
     │   │   ├── 📄 edit.jsx
     │   │   ├── 📄 save.jsx
     │   │   ├── 📄 style.scss
-    │   │   └── 📄 editor.scss
+    │   │   └── 📄 editor-style.scss
     │   ├── 📄 block.json
     │   └── 📄 package.json
 ```
@@ -156,54 +174,8 @@ When using a monorepo approach, your project structure looks like this:
 | 📄 | `edit.jsx` | React component for the block editor |
 | 📄 | `save.jsx` | React component for the frontend display |
 | 📄 | `style.scss` | Global styles for both editor and frontend |
-| 📄 | `editor.scss` | Editor-specific styles |
+| 📄 | `editor-style.scss` | Editor-specific styles |
 | 📄 | `block.json` | Block configuration and metadata |
-
-### Development Commands
-
-Available commands in your root `package.json`:
-```json
-{
-    "scripts": {
-        "create": "npx -p vite-gutenberg-blocks-creator create",
-        "dev": "npx lerna run dev",
-        "build": "npx lerna run build"
-    }
-}
-```
-
-To work with individual blocks, navigate to the block directory and use:
-```bash
-# Install dependencies
-npm install
-
-# Start development server for this block
-npm run dev
-
-# Build this block for production
-npm run build
-```
-
-### Development Workflow
-
-1. Create a new block using either method above
-2. Navigate to your block directory:
-   ```bash
-   cd blocks/your-block-name
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-5. Make your changes with hot module replacement
-6. Build for production when ready:
-   ```bash
-   npm run build
-   ```
 
 ### Block Configuration
 
