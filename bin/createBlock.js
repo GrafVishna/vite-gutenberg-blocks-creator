@@ -9,6 +9,16 @@ import chalk from "chalk"
 const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)) + "/../")
 const __dirname = resolve()
 
+// Parse command line arguments
+const args = process.argv.slice(2)
+let targetDir = "BLOCKS"
+if (args.length > 0) {
+	targetDir = args[0]
+}
+
+console.log('Target directory:', targetDir)
+console.log('Current directory:', __dirname)
+
 const slugify = (str) =>
 	str
 		.toLowerCase()
@@ -66,36 +76,51 @@ const startApp = async () => {
 	const blockName = await rl.question("What is the name of the new block? ")
 	rl.close()
 	const slug = slugify(blockName)
-	const dir = join(__dirname, `BLOCKS/${slug}`)
+	const dir = join(__dirname, `${targetDir}/${slug}`)
 
 	const isValid = validateOptions(company, namespace, slug, dir)
-	console.log(`Creating a new block as ${namespace}/${slug} with the name of "${blockName}"`)
+	console.log(`Creating a new block as ${namespace}/${slug} with the name of "${blockName}" in directory "${targetDir}"`)
 	if (isValid) {
+		// Create target directory if it doesn't exist
+		const targetDirPath = join(__dirname, targetDir)
+		if (!existsSync(targetDirPath)) {
+			console.log('Creating target directory:', targetDirPath)
+			mkdirSync(targetDirPath, { recursive: true })
+		}
+
+		console.log('Creating block directory:', dir)
 		mkdirSync(dir)
+		console.log('Creating src directory:', `${dir}/src`)
 		mkdirSync(`${dir}/src`)
 	}
 	if (company) company = "@" + company + "/"
 	else company = ""
 
 	const stubs = walk(resolve(`${pkgRoot}/stubs/blocks`))
+	console.log('Found stubs:', stubs)
+
 	for (const stub of stubs) {
 		if (/\.stub$/i.test(stub) === false) continue
-		const relativePath = stub.replace(`${pkgRoot}/stubs/blocks/`, "")
-		const overridePath = __dirname + "/stubs/" + relativePath
-		const resolvedSource = existsSync(overridePath) ? overridePath : stub
 
-		let contents = readFileSync(resolvedSource, "utf8")
-		// e.g. "src/save.jsx"
-		const outputPath = `${dir}/${relativePath.replace(/\.stub$/, "")}`
-		contents = contents
-			.replace(/##company##/gi, company)
-			.replace(/##namespace##/gi, namespace)
+		const source = stub
+		const output = stub
+			.replace(/\.stub$/i, "")
+			.replace(/^.*?stubs\/blocks/, dir)
+			.replace(/##company##/g, company)
+			.replace(/##namespace##/g, namespace)
 			.replace(/##block##/g, slug)
-			.replace(/##name##/g, blockName)
-		writeFileSync(outputPath, contents)
+			.replace(/{{namespace}}/g, namespace)
+			.replace(/{{blockName}}/g, slug)
+
+		console.log('Processing stub:', source)
+		console.log('Resolved source:', source)
+		console.log('Writing to:', output)
+
+		const content = readFileSync(source, "utf-8")
+		writeFileSync(output, content)
 	}
-	console.log(chalk.green("Complete"))
-	process.exit(1)
+
+	console.log("Complete")
 }
 
 startApp()
